@@ -2,7 +2,7 @@ import cv2
 from db import frames_col
 import os
 
-def match_template_in_video_frames(video_name: str, template_path: str, threshold=0.8):
+def match_template_in_video_frames(video_name: str, template_path: str):
     template = cv2.imread(template_path, cv2.IMREAD_GRAYSCALE)
     if template is None:
         raise ValueError("Template introuvable ou invalide")
@@ -20,17 +20,17 @@ def match_template_in_video_frames(video_name: str, template_path: str, threshol
             continue
 
         res = cv2.matchTemplate(img, template, cv2.TM_CCOEFF_NORMED)
-        min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)
+        _, max_val, _, max_loc = cv2.minMaxLoc(res)
 
-        if max_val >= threshold:
-            frame_match = {
-                "video_name": video_name,
-                "frame_id": frame["frame_id"],
-                "image_path": frame["image_path"],
-                "timestamp": frame["timestamp"],
-                "match_score": round(float(max_val), 4),
-                "match_position": {"x": max_loc[0], "y": max_loc[1]},
-            }
-            results.append(frame_match)
+        # On enregistre toujours le résultat, quel que soit le score
+        frame_match = {
+            "video_name": video_name,
+            "frame_id": frame["frame_id"],
+            "image_path": frame["image_path"],
+            "timestamp": frame["timestamp"],
+            "match_score": round(float(max_val), 4),
+            "match_position": {"x": max_loc[0], "y": max_loc[1]},
+        }
+        results.append(frame_match)
 
     return results
